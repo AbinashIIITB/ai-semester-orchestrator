@@ -16,6 +16,11 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
   const [syllabusFile, setSyllabusFile] = useState<File | null>(null);
   const [notesFiles, setNotesFiles] = useState<File[]>([]);
   
+  const [prefRoadmap, setPrefRoadmap] = useState(true);
+  const [prefStudyGuide, setPrefStudyGuide] = useState(true);
+  const [prefSummary, setPrefSummary] = useState(true);
+  const [prefQuiz, setPrefQuiz] = useState(true);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,6 +58,14 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
 
     files.forEach(f => formData.append("files", f));
     formData.append("file_types", JSON.stringify(types));
+
+    const preferences = {
+      roadmap: prefRoadmap,
+      study_guide: prefStudyGuide,
+      summary: prefSummary,
+      quiz: prefQuiz
+    };
+    formData.append("preferences", JSON.stringify(preferences));
 
     try {
       const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -161,8 +174,30 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
         </div>
       </div>
 
+      <div style={{ padding: '1.5rem', backgroundColor: 'var(--bg-surface)', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '2rem' }}>
+        <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Generation Preferences</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <input type="checkbox" checked={prefRoadmap} onChange={e => setPrefRoadmap(e.target.checked)} />
+            <span>Semester Roadmap</span>
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <input type="checkbox" checked={prefStudyGuide} onChange={e => setPrefStudyGuide(e.target.checked)} />
+            <span>Study Guide</span>
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <input type="checkbox" checked={prefSummary} onChange={e => setPrefSummary(e.target.checked)} />
+            <span>Summary Notes</span>
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <input type="checkbox" checked={prefQuiz} onChange={e => setPrefQuiz(e.target.checked)} />
+            <span>Weekly Quiz</span>
+          </label>
+        </div>
+      </div>
+
       <button type="submit" disabled={loading} style={{ width: '100%', fontSize: '1.25rem', padding: '1.25rem' }}>
-        {loading ? "Synthesizing..." : "Generate Roadmap"}
+        {loading ? "Synthesizing..." : "Generate Materials"}
       </button>
     </form>
   );

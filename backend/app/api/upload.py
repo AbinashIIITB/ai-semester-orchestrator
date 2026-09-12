@@ -25,6 +25,7 @@ async def upload_documents(
     course_code: str = Form(...),
     course_name: str = Form(...),
     semester_name: str = Form(...),
+    preferences: Optional[str] = Form(None),
     file_types: str = Form(...), # JSON string list e.g. '["syllabus", "notes"]'
     files: List[UploadFile] = File(...),
     db: AsyncSession = Depends(get_db)
