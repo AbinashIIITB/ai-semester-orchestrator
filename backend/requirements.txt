@@ -1,0 +1,15 @@
+fastapi[standard]
+sqlalchemy[asyncio]
+asyncpg
+pgvector
+alembic
+langchain-openai
+langgraph
+langchain-core
+langchain-community
+pymupdf
+python-multipart
+pydantic-settings
+httpx
+pytest
+pytest-asyncio
