@@ -15,7 +15,7 @@ class NotesEmbedding(Base):
     course_id = Column(UUID(as_uuid=True), ForeignKey("courses.id", ondelete="CASCADE"))
     chunk_text = Column(Text, nullable=False)
     embedding = Column(Vector(1536))
-    metadata = Column("metadata", JSONB, default=dict)
+    meta_data = Column("metadata", JSONB, default=dict)
     created_at = Column(
         "created_at",
         default=func.now(),

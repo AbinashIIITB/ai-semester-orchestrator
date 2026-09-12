@@ -79,4 +79,4 @@ def build_graph() -> StateGraph:
     return graph.compile()
 
 # Singleton instance
-app = build_graph()
+orchestrator_graph = build_graph()

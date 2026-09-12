@@ -2,14 +2,14 @@ from typing import List
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from langchain_openai import AsyncOpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 from .pdf_parser import DocumentChunk
 from ..models.embedding import NotesEmbedding
 from ..config import settings
 
-def get_embeddings_client() -> AsyncOpenAIEmbeddings:
-    return AsyncOpenAIEmbeddings(
+def get_embeddings_client() -> OpenAIEmbeddings:
+    return OpenAIEmbeddings(
         model=settings.OPENAI_EMBEDDING_MODEL,
         api_key=settings.OPENAI_API_KEY
     )
@@ -35,7 +35,7 @@ async def embed_and_store_chunks(
             course_id=course_id,
             chunk_text=chunk.text,
             embedding=emb,
-            metadata=chunk.metadata
+            meta_data=chunk.metadata
         )
         for chunk, emb in zip(chunks, embeddings)
     ]
