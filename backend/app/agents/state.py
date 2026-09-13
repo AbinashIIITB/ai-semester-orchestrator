@@ -32,6 +32,10 @@ class AgentState(TypedDict):
     qc_passed: bool | None
     qc_feedback: str | None              # Reason for rejection
     
+    # User Preferences
+    skip_summary: bool | None
+    skip_quiz: bool | None
+    
     # Messages (for LangGraph tracing)
     messages: Annotated[list, add_messages]
     

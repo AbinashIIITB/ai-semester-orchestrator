@@ -1,66 +1,82 @@
 <#
 .SYNOPSIS
-Deploys the AI Semester Orchestrator backend to GCP Cloud Run.
+Deploys the AI Semester Orchestrator backend to Azure Container Apps.
 
 .DESCRIPTION
-This script builds a Docker container, pushes it to Google Artifact Registry,
-and deploys it to Cloud Run. It requires the gcloud CLI to be installed and authenticated.
+This script builds a Docker container using Azure Container Registry (ACR) Tasks,
+and deploys it to Azure Container Apps. It requires the az CLI to be installed and authenticated.
 
 .EXAMPLE
-.\deploy.ps1 -ProjectID "my-gcp-project-123" -Region "us-central1"
+.\deploy.ps1 -ResourceGroup "my-resource-group" -Location "eastus" -AcrName "myacr123"
 #>
 
 param (
     [Parameter(Mandatory=$true)]
-    [string]$ProjectID,
+    [string]$ResourceGroup,
 
     [Parameter(Mandatory=$false)]
-    [string]$Region = "us-central1",
+    [string]$Location = "eastus",
+
+    [Parameter(Mandatory=$true)]
+    [string]$AcrName,
 
     [Parameter(Mandatory=$false)]
-    [string]$ServiceName = "ai-semester-backend",
+    [string]$ContainerAppName = "aisemester-backend",
 
     [Parameter(Mandatory=$false)]
-    [string]$RepoName = "aisem-repo"
+    [string]$EnvironmentName = "aisemester-env"
 )
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "Starting deployment process to GCP..." -ForegroundColor Cyan
+Write-Host "Starting deployment process to Azure..." -ForegroundColor Cyan
 
-# 1. Ensure gcloud is configured to use the correct project
-Write-Host "Setting GCP Project to $ProjectID..."
-gcloud config set project $ProjectID
-
-# 2. Enable necessary APIs (Cloud Build, Cloud Run, Artifact Registry)
-Write-Host "Enabling required APIs..."
-gcloud services enable cloudbuild.googleapis.com run.googleapis.com artifactregistry.googleapis.com
-
-# 3. Check if Artifact Registry repository exists, create if it doesn't
-Write-Host "Checking Artifact Registry repository '$RepoName'..."
-$repoExists = gcloud artifacts repositories describe $RepoName --location=$Region --format="value(name)" 2>$null
-if (-not $repoExists) {
-    Write-Host "Creating repository '$RepoName'..." -ForegroundColor Yellow
-    gcloud artifacts repositories create $RepoName --repository-format=docker --location=$Region --description="AI Semester Backend Images"
-} else {
-    Write-Host "Repository exists."
+# 1. Check if user is logged in
+$account = az account show 2>$null
+if (-not $account) {
+    Write-Host "You are not logged into Azure CLI. Please run 'az login' first." -ForegroundColor Red
+    exit 1
 }
 
-# 4. Build the image using Cloud Build
-$imagePath = "$Region-docker.pkg.dev/$ProjectID/$RepoName/$ServiceName:latest"
-Write-Host "Building Docker image: $imagePath" -ForegroundColor Cyan
-gcloud builds submit --tag $imagePath .
+# 2. Ensure Resource Group exists
+Write-Host "Checking if Resource Group '$ResourceGroup' exists..."
+$rgExists = az group exists --name $ResourceGroup
+if ($rgExists -eq "false") {
+    Write-Host "Creating Resource Group '$ResourceGroup' in '$Location'..." -ForegroundColor Yellow
+    az group create --name $ResourceGroup --location $Location | Out-Null
+}
 
-# 5. Deploy to Cloud Run
-Write-Host "Deploying to Cloud Run..." -ForegroundColor Cyan
-gcloud run deploy $ServiceName `
-    --image $imagePath `
-    --region $Region `
-    --allow-unauthenticated `
-    --port 8000 `
-    --memory 512Mi `
-    --set-env-vars="OPENAI_MODEL=gpt-4o,OPENAI_EMBEDDING_MODEL=text-embedding-3-small" `
-    --update-secrets="DATABASE_URL=DATABASE_URL:latest,OPENAI_API_KEY=OPENAI_API_KEY:latest"
+# 3. Ensure ACR exists
+Write-Host "Checking if ACR '$AcrName' exists..."
+$acrExists = az acr check-name --name $AcrName | ConvertFrom-Json
+if ($acrExists.nameAvailable -eq $true) {
+    Write-Host "Creating Azure Container Registry '$AcrName'..." -ForegroundColor Yellow
+    az acr create --resource-group $ResourceGroup --name $AcrName --sku Basic --admin-enabled true | Out-Null
+}
+
+# 4. Build image using ACR Tasks
+$imageTag = "$AcrName.azurecr.io/$ContainerAppName:latest"
+Write-Host "Building Docker image in ACR: $imageTag" -ForegroundColor Cyan
+az acr build --registry $AcrName --image "$ContainerAppName:latest" "."
+
+# 5. Ensure Container App Environment exists
+Write-Host "Checking Container App Environment '$EnvironmentName'..."
+$envExists = az containerapp env show --name $EnvironmentName --resource-group $ResourceGroup 2>$null
+if (-not $envExists) {
+    Write-Host "Creating Container App Environment (this may take a few minutes)..." -ForegroundColor Yellow
+    az containerapp env create --name $EnvironmentName --resource-group $ResourceGroup --location $Location | Out-Null
+}
+
+# 6. Deploy to Container App
+Write-Host "Deploying to Azure Container Apps..." -ForegroundColor Cyan
+az containerapp up `
+    --name $ContainerAppName `
+    --resource-group $ResourceGroup `
+    --environment $EnvironmentName `
+    --image $imageTag `
+    --target-port 8000 `
+    --ingress external `
+    --env-vars "DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/db" "OPENAI_API_KEY=sk-placeholder"
 
 Write-Host "Deployment Complete!" -ForegroundColor Green
-Write-Host "NOTE: You must configure DATABASE_URL and OPENAI_API_KEY in GCP Secret Manager for the service to start successfully." -ForegroundColor Yellow
+Write-Host "NOTE: You must configure DATABASE_URL and OPENAI_API_KEY environment variables in the Azure Portal or using the az cli for the service to start successfully." -ForegroundColor Yellow

@@ -9,7 +9,7 @@ from ..agents.graph import orchestrator_graph
 router = APIRouter(prefix="/weekly-prep", tags=["weekly-prep"])
 
 @router.get("/{week}", response_model=WeeklyPrepResponse)
-async def get_weekly_prep(week: int, course_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
+async def get_weekly_prep(week: int, course_id: uuid.UUID, summary: bool = True, quiz: bool = True, db: AsyncSession = Depends(get_db)):
     
     # 1. We need the roadmap to know what topics are scheduled for this week.
     # We can either fetch from DB or run the scheduler agent.
@@ -32,7 +32,9 @@ async def get_weekly_prep(week: int, course_id: uuid.UUID, db: AsyncSession = De
         "course_id": str(course_id),
         "request_type": "weekly_prep",
         "target_week": week,
-        "roadmap": mock_roadmap
+        "roadmap": mock_roadmap,
+        "skip_summary": not summary,
+        "skip_quiz": not quiz
     }
     
     try:

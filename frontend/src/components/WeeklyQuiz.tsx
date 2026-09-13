@@ -5,10 +5,11 @@ import { WeeklyPrepResponse, QuizQuestionResponse } from "../types/api";
 
 interface WeeklyQuizProps {
   prepData: WeeklyPrepResponse;
+  preferences: any;
   onBack: () => void;
 }
 
-export default function WeeklyQuiz({ prepData, onBack }: WeeklyQuizProps) {
+export default function WeeklyQuiz({ prepData, preferences, onBack }: WeeklyQuizProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -35,19 +36,22 @@ export default function WeeklyQuiz({ prepData, onBack }: WeeklyQuizProps) {
         &larr; Back to Journey
       </button>
 
-      <div style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Concepts to Master
-        </h2>
-        <div style={{ padding: '2rem', backgroundColor: 'var(--bg-surface)', borderLeft: '4px solid var(--primary-color)', borderRadius: '0 12px 12px 0' }}>
-          <pre style={{ whiteSpace: "pre-wrap", fontFamily: "var(--font-body)", fontSize: '1.125rem', lineHeight: '1.8', color: 'var(--text-color)', margin: 0 }}>
-            {prepData.summary}
-          </pre>
+      {preferences?.summary !== false && (
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Concepts to Master
+          </h2>
+          <div style={{ padding: '2rem', backgroundColor: 'var(--bg-surface)', borderLeft: '4px solid var(--primary-color)', borderRadius: '0 12px 12px 0' }}>
+            <pre style={{ whiteSpace: "pre-wrap", fontFamily: "var(--font-body)", fontSize: '1.125rem', lineHeight: '1.8', color: 'var(--text-color)', margin: 0 }}>
+              {prepData.summary || "Summary generation was skipped."}
+            </pre>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Knowledge Check</h2>
+      {preferences?.quiz !== false && (
+        <div>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Knowledge Check</h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {prepData.quiz.map((q, i) => (
@@ -147,6 +151,7 @@ export default function WeeklyQuiz({ prepData, onBack }: WeeklyQuizProps) {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }

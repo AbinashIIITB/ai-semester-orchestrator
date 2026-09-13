@@ -4,13 +4,13 @@ import { useState } from "react";
 import { UploadResponse } from "../types/api";
 
 interface UploadFormProps {
-  onSuccess: (courseId: string, semesterId: string) => void;
+  onSuccess: (courseId: string, semesterId: string, preferences: any) => void;
 }
 
 export default function UploadForm({ onSuccess }: UploadFormProps) {
-  const [courseCode, setCourseCode] = useState("CS301");
-  const [courseName, setCourseName] = useState("Operating Systems");
-  const [semesterName, setSemesterName] = useState("Fall 2026");
+  const [courseCode, setCourseCode] = useState("");
+  const [courseName, setCourseName] = useState("");
+  const [semesterName, setSemesterName] = useState("");
   
   const [calendarFile, setCalendarFile] = useState<File | null>(null);
   const [syllabusFile, setSyllabusFile] = useState<File | null>(null);
@@ -80,7 +80,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       }
 
       const data: UploadResponse = await res.json();
-      onSuccess(data.course_id, data.semester_id);
+      onSuccess(data.course_id, data.semester_id, preferences);
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
       else setError(String(err));

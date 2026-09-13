@@ -10,6 +10,7 @@ type AppState = "upload" | "roadmap" | "quiz";
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>("upload");
+  const [preferences, setPreferences] = useState<any>(null);
   
   // Data State
   const [courseId, setCourseId] = useState<string | null>(null);
@@ -20,9 +21,14 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleUploadSuccess = async (cid: string) => {
+  const handleUploadSuccess = async (cid: string, sid: string, prefs: any) => {
     setCourseId(cid);
-    await fetchRoadmap(cid);
+    setPreferences(prefs);
+    if (prefs?.roadmap !== false) {
+      await fetchRoadmap(cid);
+    } else {
+      await handleWeekSelect(1, cid, prefs);
+    }
   };
 
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -46,13 +52,20 @@ export default function Home() {
     }
   };
 
-  const handleWeekSelect = async (week: number) => {
-    if (!courseId) return;
+  const handleWeekSelect = async (week: number, cid?: string, prefs?: any) => {
+    const activeCid = cid || courseId;
+    const activePrefs = prefs || preferences;
+    if (!activeCid) return;
     
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/weekly-prep/${week}?course_id=${courseId}`);
+      const qs = new URLSearchParams({
+        course_id: activeCid,
+        summary: activePrefs?.summary !== false ? "true" : "false",
+        quiz: activePrefs?.quiz !== false ? "true" : "false"
+      });
+      const res = await fetch(`${API_BASE}/weekly-prep/${week}?${qs.toString()}`);
       if (!res.ok) {
         throw new Error("Failed to generate weekly prep. The RAG pipeline might have encountered an error.");
       }
@@ -103,7 +116,7 @@ export default function Home() {
 
         {!loading && appState === "upload" && (
           <div className="animate-enter" style={{ animationDelay: "0.1s" }}>
-            <UploadForm onSuccess={(cid) => handleUploadSuccess(cid)} />
+            <UploadForm onSuccess={(cid, sid, prefs) => handleUploadSuccess(cid, sid, prefs)} />
           </div>
         )}
 
@@ -120,6 +133,7 @@ export default function Home() {
           <div className="animate-enter" style={{ animationDelay: "0.1s" }}>
             <WeeklyQuiz 
               prepData={prepData} 
+              preferences={preferences}
               onBack={() => setAppState("roadmap")} 
             />
           </div>
