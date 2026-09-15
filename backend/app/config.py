@@ -17,7 +17,10 @@ class Settings(BaseSettings):
     RETRIEVAL_TOP_K: int = 10
     
     # App
-    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    CORS_ORIGINS: list[str] = [
+        "http://localhost:3000",
+        "https://aisemester-web.vercel.app"
+    ]
 
     model_config = SettingsConfigDict(env_file=".env")
 
