@@ -1,4 +1,4 @@
-name: Deploy Backend to Azure Container Apps
+name: Deploy Backend to Azure Web App
 
 on:
   push:
@@ -9,7 +9,8 @@ on:
 
 env:
   ACR_NAME: ${{ secrets.ACR_NAME }}
-  CONTAINER_APP_NAME: aisemester-backend
+  IMAGE_NAME: aisemester-backend
+  WEBAPP_NAME: aisemester-app-21335
   RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
 
 jobs:
@@ -32,17 +33,23 @@ jobs:
       - name: Build and Push to ACR
         run: |
           az acr login --name ${{ env.ACR_NAME }}
-          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }} ./backend
-          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} ./backend
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Deploy to Azure Container Apps
-        uses: azure/container-apps-deploy-action@v1
+      - name: Update Web App Settings
+        run: |
+          az webapp config appsettings set \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name ${{ env.WEBAPP_NAME }} \
+            --settings \
+            DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \
+            OPENAI_MODEL="gpt-4o" \
+            OPENAI_EMBEDDING_MODEL="text-embedding-3-small" \
+            WEBSITES_PORT="8000"
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
-          resourceGroup: ${{ env.RESOURCE_GROUP }}
-          containerAppName: ${{ env.CONTAINER_APP_NAME }}
-          imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
-          environmentVariables: |
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-            OPENAI_MODEL=gpt-4o
-            OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+          app-name: ${{ env.WEBAPP_NAME }}
+          images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
