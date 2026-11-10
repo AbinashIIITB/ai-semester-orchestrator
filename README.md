@@ -144,6 +144,8 @@ npm run dev
 ---
 
 ## 👥 Group Members & Contributions
-- **Student 1**: Project conception, problem definition, system architecture design, and public cloud selection (Microsoft Azure & Vercel).
-- **Student 2**: Cloud backend containerization (Docker), Azure Container Registry (ACR), Infrastructure as Code (`deploy.ps1`), and GitHub Actions CI/CD with secretless OIDC authentication.
-- **Student 3**: Next.js frontend engineering, edge deployment on Vercel, multi-agent LangGraph pipeline integration, sample test dataset creation, and live demonstration.
+**Presented by**:
+- **B123007 Abinash Mohanty**: Project conception, three-tier cloud architecture design, Next.js frontend engineering & Vercel edge deployment, and multi-agent workflow integration.
+- **B123018 Anil Paliwal**: Backend containerization (Docker), Azure Container Registry (ACR), Infrastructure as Code (`deploy.ps1`), and automated GitHub Actions CI/CD with secretless OIDC authentication.
+- **B123077 Namrata Kala**: Cloud PostgreSQL database with `pgvector` indexing, semantic RAG vector retrieval, Quality Control agent validation, performance benchmarks, and live demonstration.
+

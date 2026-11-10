@@ -8,24 +8,24 @@
 
 ## Group Roles & Timeline Overview
 
-| Speaker | Role / Section | Time Allocation | Cumulative Time |
-| :--- | :--- | :--- | :--- |
-| **Student 1** | Project Introduction, Problem Statement, Objectives & Cloud System Architecture | 0:00 – 3:15 (3 min 15 s) | 3:15 |
-| **Student 2** | Cloud Engineering, Containerization (Docker), ACR, CI/CD (GitHub Actions + OIDC) & Security | 3:15 – 6:30 (3 min 15 s) | 6:30 |
-| **Student 3** | Live Application Demonstration, Feature Walkthrough, Cloud Scalability & Conclusion | 6:30 – 10:00 (3 min 30 s) | 10:00 |
+| Speaker | Team Member | Role / Section | Time Allocation | Cumulative Time |
+| :--- | :--- | :--- | :--- | :--- |
+| **Speaker 1** | **B123007 Abinash Mohanty** | Project Introduction, Problem Statement, Objectives & Cloud System Architecture | 0:00 – 3:15 (3 min 15 s) | 3:15 |
+| **Speaker 2** | **B123018 Anil Paliwal** | Cloud Engineering, Containerization (Docker), ACR, CI/CD (GitHub Actions + OIDC) & Security | 3:15 – 6:30 (3 min 15 s) | 6:30 |
+| **Speaker 3** | **B123077 Namrata Kala** | Live Application Demonstration, Feature Walkthrough, Cloud Scalability & Conclusion | 6:30 – 10:00 (3 min 30 s) | 10:00 |
 
 ---
 
 ## Detailed Script & Visual Walkthrough
 
 ### Part 1: Introduction, Problem Statement & Cloud Architecture
-**Speaker**: **Student 1**  
+**Speaker**: **B123007 Abinash Mohanty**  
 **Duration**: 0:00 – 3:15 (195 Seconds)
 
 #### [0:00 – 0:45] Slide 1: Title & Group Introduction
 * **On Screen**: Slide showing Project Title ("AI Semester Orchestrator: A Cloud-Native Multi-Agent Academic Planning & RAG Platform"), Course Name ("Cloud Computing"), Group Member Names, and Cloud logos (Microsoft Azure, Docker, Vercel, PostgreSQL).
-* **Speaker (Student 1)**:
-  > *"Hello professor and everyone. Welcome to our Cloud Computing final project presentation. Today, our team—consisting of [Student 1 Name], [Student 2 Name], and [Student 3 Name]—is proud to present the **AI Semester Orchestrator**.*
+* **Speaker (Abinash Mohanty)**:
+  > *"Hello professor and everyone. Welcome to our Cloud Computing final project presentation. Today, our team—consisting of **Abinash Mohanty (B123007)**, **Anil Paliwal (B123018)**, and **Namrata Kala (B123077)**—is proud to present the **AI Semester Orchestrator**.*
   >
   > *In this project, we architected, containerized, and deployed a modern multi-tier cloud application using **Microsoft Azure**, **Vercel Global Edge**, and **managed Cloud PostgreSQL with vector embeddings**. Over the next 10 minutes, we will walk you through the real-world problem we are solving, our distributed cloud architecture, our automated DevOps CI/CD pipeline, and a full live demonstration of the deployed system."*
 
@@ -49,18 +49,18 @@
   >
   > *Third, at the **Data and AI Tier**, we leverage a managed **PostgreSQL** instance enhanced with the **pgvector** extension to store high-dimensional 1536-dimensional embeddings alongside structured course tables. For generative intelligence, we integrate with cloud LLMs—OpenAI GPT-4o and text-embedding-3-small—to power semantic retrieval and automated curriculum scheduling.*
   >
-  > *Now, I will hand over to [Student 2], who will explain our containerization, cloud deployment pipeline, and DevOps security."*
+  > *Now, I will hand over to **Anil Paliwal**, who will explain our containerization, cloud deployment pipeline, and DevOps security."*
 
 ---
 
 ### Part 2: Cloud Implementation, Containerization & CI/CD DevOps
-**Speaker**: **Student 2**  
+**Speaker**: **B123018 Anil Paliwal**  
 **Duration**: 3:15 – 6:30 (195 Seconds)
 
 #### [3:15 – 4:15] Slide 4: Containerization with Docker & Multi-Agent Design
 * **On Screen**: Display `backend/Dockerfile`, `backend/docker-compose.yml`, and `multi_agent_pipeline_architecture.svg`.
-* **Speaker (Student 2)**:
-  > *"Thank you, [Student 1]. As software engineers moving to the cloud, our primary principle was reproducibility and microservice isolation.*
+* **Speaker (Anil Paliwal)**:
+  > *"Thank you, Abinash. As software engineers moving to the cloud, our primary principle was reproducibility and microservice isolation.*
   >
   > *In our backend, we containerized the entire Python 3.12 application using a lightweight Debian-slim base image. We separated dependencies into multi-stage layers so that cached wheel builds speed up our deployment cycle. For local development and integration testing, we configured Docker Compose to orchestrate our FastAPI service alongside a local pgvector PostgreSQL container.*
   >
@@ -86,18 +86,18 @@
   >
   > *GitHub Actions requests an ephemeral cryptographic JWT token from Microsoft Entra ID using `azure/login@v2`, allowing secretless authentication. When code is pushed to our main branch, the pipeline automatically checks out code, logs into Azure Container Registry, builds the new Docker tag, pushes the image, updates application settings, and executes zero-downtime deployment.*
   >
-  > *Now, I will pass the presentation to [Student 3] for our live application demo and results."*
+  > *Now, I will pass the presentation to **Namrata Kala** for our live application demo and results."*
 
 ---
 
 ### Part 3: Live Application Demonstration, Cloud Results & Conclusion
-**Speaker**: **Student 3**  
+**Speaker**: **B123077 Namrata Kala**  
 **Duration**: 6:30 – 10:00 (210 Seconds)
 
 #### [6:30 – 8:30] Screen Share: Live End-to-End Demonstration
 * **On Screen**: Live browser navigating to `https://aisemester-web.vercel.app`.
-* **Speaker (Student 3)**:
-  > *"Thank you, [Student 2]. Let's now see the AI Semester Orchestrator in action live on the web at `aisemester-web.vercel.app`.*
+* **Speaker (Namrata Kala)**:
+  > *"Thank you, Anil. Let's now see the AI Semester Orchestrator in action live on the web at `aisemester-web.vercel.app`.*
   >
   > *Here is our user interface, running globally from edge CDN locations. On the left pane, we have a clear narrative guidance system, and on the right, our configuration interface.*
   >
@@ -156,3 +156,4 @@
    - Student 2 takes over screen share to show Azure Portal and GitHub Actions workflow.
    - Student 3 takes over screen share to demonstrate the live web app and conclude.
 3. **Pacing**: Speak at a steady pace of ~130–140 words per minute to match the 10:00 minute timeline comfortably.
+

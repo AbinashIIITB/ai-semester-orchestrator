@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Semester Orchestrator — Cloud Computing Presentation</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --text: #c9d1d9;
+      --heading: #f0f6fc;
+      --accent-azure: #0078d4;
+      --accent-cyan: #58a6ff;
+      --accent-green: #238636;
+      --accent-purple: #8957e5;
+      --accent-red: #da3633;
+      --border: #30363d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background-color: rgba(22, 27, 34, 0.8);
+      backdrop-filter: blur(8px);
+    }
+    .brand { font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem; }
+    .slide-counter { font-size: 0.9rem; color: #8b949e; font-weight: 600; }
+    .deck-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      height: 100%;
+      max-height: 620px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 4rem;
+      flex-direction: column;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s ease;
+      overflow-y: auto;
+    }
+    .slide.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .speaker-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+      width: fit-content;
+    }
+    .speaker-1 { background-color: rgba(88, 166, 255, 0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+    .speaker-2 { background-color: rgba(137, 87, 229, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+    .speaker-3 { background-color: rgba(35, 134, 54, 0.15); color: #3fb950; border: 1px solid #3fb950; }
+    
+    h1 { font-size: 2.4rem; color: var(--heading); margin-bottom: 0.75rem; font-weight: 700; line-height: 1.2; }
+    h2 { font-size: 1.8rem; color: var(--heading); margin-bottom: 1rem; }
+    h3 { font-size: 1.2rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+    p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.25rem; color: #8b949e; }
+    ul { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+    li { font-size: 1.05rem; line-height: 1.7; margin-bottom: 0.5rem; color: var(--text); }
+    li strong { color: var(--heading); }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .feature-card h4 { color: var(--accent-cyan); font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.95rem; margin-bottom: 0; }
+
+    footer {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      background-color: rgba(22, 27, 34, 0.8);
+    }
+    .btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--heading);
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn:hover { background: #21262d; border-color: #58a6ff; }
+    .btn-primary { background: #238636; border-color: #2ea043; }
+    .btn-primary:hover { background: #2ea043; }
+    .key-hint { font-size: 0.85rem; color: #8b949e; }
+    .key-badge { background: #21262d; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border); color: #c9d1d9; }
+    
+    .diagram-container {
+      width: 100%;
+      height: 380px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d1117;
+    }
+    .diagram-container img, .diagram-container object {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span>☁️</span> AI Semester Orchestrator
+    </div>
+    <div class="slide-counter" id="counter">Slide 1 of 8</div>
+  </header>
+
+  <main class="deck-container">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active" id="slide-1">
+      <div class="speaker-badge speaker-1">Abinash Mohanty (B123007) [0:00 - 0:45]</div>
+      <h1 style="font-size: 2.8rem; margin-top: 1rem;">AI Semester Orchestrator</h1>
+      <h3 style="font-size: 1.4rem; color: var(--accent-azure); margin-bottom: 2rem;">A Cloud-Native Multi-Agent Academic Planning &amp; RAG Platform</h3>
+      <p style="font-size: 1.2rem; max-width: 800px;">
+        Final Project Submission for <strong>Cloud Computing</strong>.<br>
+        Deployed across <strong>Microsoft Azure</strong>, <strong>Vercel Global Edge</strong>, and <strong>Cloud PostgreSQL with vector embeddings</strong>.
+      </p>
+      <div class="grid-3" style="margin-top: 2rem;">
+        <div class="feature-card">
+          <h4>Presented By</h4>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #f0f6fc;">
+            <strong>B123007</strong> Abinash Mohanty<br>
+            <strong>B123018</strong> Anil Paliwal<br>
+            <strong>B123077</strong> Namrata Kala
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4>Public Cloud</h4>
+          <p>Microsoft Azure (Compute/ACR)<br>Vercel Edge (Presentation)</p>
+        </div>
+        <div class="feature-card">
+          <h4>Live Deployment</h4>
+          <p>aisemester-web.vercel.app<br>CI/CD via GitHub Actions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Problem Statement & Objectives -->
+    <div class="slide" id="slide-2">
+      <div class="speaker-badge speaker-1">Abinash Mohanty (B123007) [0:45 - 1:45]</div>
+      <h2>Problem Statement &amp; Objectives</h2>
+      <div class="grid-2" style="margin-top: 1.5rem;">
+        <div class="feature-card">
+          <h4 style="color: var(--accent-red);">The Challenge</h4>
+          <ul>
+            <li><strong>Fragmented Materials:</strong> Disconnected syllabi, lecture slides, and university calendars.</li>
+            <li><strong>Scheduling Conflicts:</strong> Overlapping exam weeks, misaligned pacing, and uncoordinated holidays.</li>
+            <li><strong>Manual Synthesis:</strong> Hours spent creating study guides and mock quizzes.</li>
+            <li><strong>Compute Demands:</strong> Heavy vector embeddings and LLM reasoning exceed client-side capacities.</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-green);">The Cloud Solution</h4>
+          <ul>
+            <li><strong>Stateless Microservices:</strong> Elastic containerized backend hosted on Microsoft Azure.</li>
+            <li><strong>Autonomous Multi-Agent AI:</strong> LangGraph orchestrator parsing PDFs and conflict-free schedules.</li>
+            <li><strong>Semantic Vector RAG:</strong> PostgreSQL Flexible Server + <code>pgvector</code> for sub-second similarity lookups.</li>
+            <li><strong>Global Edge Delivery:</strong> Next.js on Vercel Edge for sub-50ms user response.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Cloud System Architecture -->
+    <div class="slide" id="slide-3">
+      <div class="speaker-badge speaker-1">Abinash Mohanty (B123007) [1:45 - 3:15]</div>
+      <h2>Three-Tier Cloud Architecture</h2>
+      <p>Decoupled presentation, containerized application logic, and managed database services.</p>
+      <div class="diagram-container">
+        <object data="Architecture_Diagrams/cloud_computing_architecture.svg" type="image/svg+xml" style="width:100%; height:100%;"></object>
+      </div>
+    </div>
+
+    <!-- Slide 4: Multi-Agent Engine & Docker Containerization -->
+    <div class="slide" id="slide-4">
+      <div class="speaker-badge speaker-2">Anil Paliwal (B123018) [3:15 - 4:15]</div>
+      <h2>Containerization &amp; Multi-Agent Workflow</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Docker Containerization</h3>
+          <ul>
+            <li><strong>Lightweight Debian Base:</strong> <code>python:3.12-slim</code> for minimal attack surface.</li>
+            <li><strong>Multi-stage Caching:</strong> Cached wheel builds and isolated dependency management.</li>
+            <li><strong>Docker Compose:</strong> Local parity for PostgreSQL + pgvector and FastAPI.</li>
+            <li><strong>Health Monitoring:</strong> Dedicated <code>/health</code> probe endpoint for container liveness.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>LangGraph Multi-Agent Engine</h3>
+          <ul>
+            <li><strong>Extraction Agent:</strong> Normalizes PDF syllabus and dates into JSON schemas.</li>
+            <li><strong>Scheduler Agent:</strong> Allocates 15 weeks, detects break collisions, and slots midterms.</li>
+            <li><strong>Retrieval Agent:</strong> Cosine similarity search over 1536-dim vectors.</li>
+            <li><strong>Quality Control Agent:</strong> Hallucination check with automated retry loop.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Azure Cloud Services & Container Registry -->
+    <div class="slide" id="slide-5">
+      <div class="speaker-badge speaker-2">Anil Paliwal (B123018) [4:15 - 5:30]</div>
+      <h2>Microsoft Azure Cloud Services</h2>
+      <div class="grid-3" style="margin-top: 1rem;">
+        <div class="feature-card">
+          <h4>Azure App Service</h4>
+          <p>• Runs Linux Docker container<br>• Automated horizontal auto-scale<br>• SSL/TLS certificate management<br>• Port 8000 reverse proxying</p>
+        </div>
+        <div class="feature-card">
+          <h4>Azure Container Registry</h4>
+          <p>• Private OCI Docker repository<br>• Cryptographic SHA image tagging<br>• Automated ACR Task builds<br>• Fast internal Azure deployment</p>
+        </div>
+        <div class="feature-card">
+          <h4>Self-Healing Health Probes</h4>
+          <p>• 10-second polling interval<br>• Detects deadlocks/OOM crashes<br>• Automatic instance replacement<br>• Zero-downtime routing</p>
+        </div>
+      </div>
+      <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 120, 212, 0.1); border-left: 4px solid var(--accent-azure); border-radius: 0 8px 8px 0;">
+        <strong style="color: var(--heading);">Infrastructure as Code:</strong> Automated Azure resource group, ACR provisioning, and Container Apps deployment via <code>backend/deploy.ps1</code>.
+      </div>
+    </div>
+
+    <!-- Slide 6: CI/CD Pipeline & Secretless OIDC Security -->
+    <div class="slide" id="slide-6">
+      <div class="speaker-badge speaker-2">Anil Paliwal (B123018) [5:30 - 6:30]</div>
+      <h2>Automated CI/CD &amp; OIDC Cloud Security</h2>
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="feature-card">
+          <h4>Secretless OIDC Authentication</h4>
+          <ul>
+            <li>Zero static passwords stored in GitHub Secrets.</li>
+            <li>Cryptographic JWT exchange via Microsoft Entra ID.</li>
+            <li>Role-Based Access Control (RBAC) with Least Privilege.</li>
+            <li>Temporary, ephemeral permissions during workflow execution.</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4>GitHub Actions Pipeline (deploy-azure.yml)</h4>
+          <ul>
+            <li>Triggers on push to <code>main</code> branch.</li>
+            <li>Logs in via <code>azure/login@v2</code>.</li>
+            <li>Builds and pushes Docker image to ACR.</li>
+            <li>Updates cloud settings &amp; executes rolling deployment.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Live Application Demonstration -->
+    <div class="slide" id="slide-7">
+      <div class="speaker-badge speaker-3">Namrata Kala (B123077) [6:30 - 8:30]</div>
+      <h2>Live Application Demonstration</h2>
+      <p>Demonstrating the live web app deployed at <strong>aisemester-web.vercel.app</strong>.</p>
+      <div class="grid-3" style="margin-top: 1.5rem;">
+        <div class="feature-card">
+          <h4>1. Ingestion &amp; Synthesis</h4>
+          <p>Upload syllabus, calendar, and notes (or auto-fill cloud course). Instant agentic parsing.</p>
+        </div>
+        <div class="feature-card">
+          <h4>2. Adaptive Roadmap</h4>
+          <p>15-week timeline, Week 7 Midterm Assessment, Week 11 University Break detection.</p>
+        </div>
+        <div class="feature-card">
+          <h4>3. Study Prep &amp; Quiz</h4>
+          <p>Weekly concept mastery guide and interactive 4-option quiz with instant grading and explanations.</p>
+        </div>
+      </div>
+      <div style="margin-top: 2rem; text-align: center;">
+        <a href="https://aisemester-web.vercel.app" target="_blank" class="btn btn-primary" style="display: inline-block; padding: 0.8rem 2rem; font-size: 1.1rem; text-decoration: none;">
+          Launch Live App (aisemester-web.vercel.app) ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 8: Results & Conclusion -->
+    <div class="slide" id="slide-8">
+      <div class="speaker-badge speaker-3">Namrata Kala (B123077) [8:30 - 10:00]</div>
+      <h2>Results, Cloud Metrics &amp; Conclusion</h2>
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div>
+          <h3>Measured Cloud Metrics</h3>
+          <ul>
+            <li><strong>CI/CD Build &amp; Deploy:</strong> 2 min 18 sec via GitHub Actions &amp; ACR.</li>
+            <li><strong>Edge TTFB:</strong> 32 ms globally via Vercel CDN.</li>
+            <li><strong>Vector Query Latency:</strong> 18 ms for Top-10 cosine search (pgvector).</li>
+            <li><strong>Availability:</strong> 99.9% uptime backed by Azure health probes.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Key Cloud Learnings</h3>
+          <ul>
+            <li><strong>Stateless Scaling:</strong> Decoupled containers handle exam traffic peaks with zero state loss.</li>
+            <li><strong>Fault Tolerance:</strong> Independent tier failure domains prevent cascading outages.</li>
+            <li><strong>DevOps Velocity:</strong> GitOps workflow enables reliable continuous deployment.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <h3 style="color: var(--heading); font-size: 1.5rem;">Thank You! Any Questions?</h3>
+        <p style="margin-top: 0.5rem; color: #8b949e;">Presented by: B123007 Abinash Mohanty | B123018 Anil Paliwal | B123077 Namrata Kala</p>
+        <p style="margin-top: 0.25rem; color: #58a6ff;">github.com/AbinashIIITB/ai-semester-orchestrator</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <button class="btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
+    <div class="key-hint">
+      Use <span class="key-badge">←</span> and <span class="key-badge">→</span> arrow keys to navigate | <span class="key-badge">F11</span> for Fullscreen
+    </div>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextSlide()">Next →</button>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    function showSlide(index) {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.classList.toggle('active', i === index - 1);
+      });
+      document.getElementById('counter').innerText = `Slide ${index} of ${totalSlides}`;
+      document.getElementById('prevBtn').disabled = index === 1;
+      document.getElementById('nextBtn').innerText = index === totalSlides ? 'Restart ↺' : 'Next →';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+      } else {
+        currentSlide = 1;
+      }
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    showSlide(currentSlide);
+  </script>
+</body>
+</html>
+

@@ -1,6 +1,10 @@
 # Academic Project Report: AI Semester Orchestrator
 ## A Cloud-Native Multi-Agent Academic Planning & RAG Platform
 **Course**: Cloud Computing  
+**Presented by**:
+* **B123007 Abinash Mohanty**
+* **B123018 Anil Paliwal**
+* **B123077 Namrata Kala**  
 **Public Cloud Offering**: Microsoft Azure & Vercel Global Edge Network  
 **Group Formation**: 3 Students  
 **Repository**: [github.com/AbinashIIITB/ai-semester-orchestrator](https://github.com/AbinashIIITB/ai-semester-orchestrator)  
@@ -203,3 +207,20 @@ The deployed cloud infrastructure was benchmarked across availability, deploymen
 The **AI Semester Orchestrator** successfully fulfills all requirements of the Cloud Computing Project curriculum. By harmonizing public cloud services across **Microsoft Azure (App Service, ACR, Entra ID)** and **Vercel Edge**, coupled with **managed Cloud PostgreSQL with vector embeddings**, the project demonstrates how modern cloud-native architectures solve complex, real-world educational challenges.
 
 The system delivers an end-to-end automated workflow: from PDF document ingestion and autonomous multi-agent calendar scheduling, to semantic RAG retrieval and zero-downtime CI/CD deployment. All code, configuration files, architecture diagrams, and execution scripts are fully documented and reproducible.
+
+---
+
+## 9. Team Members & Contributions
+* **B123007 Abinash Mohanty**:
+  - High-level system architecture design and three-tier cloud decomposition.
+  - Vercel global edge deployment and Next.js frontend state orchestrator.
+  - Multi-agent LangGraph workflow design and client-side resilience engineering.
+* **B123018 Anil Paliwal**:
+  - Backend containerization with Docker and multi-stage lightweight image layering.
+  - Microsoft Azure App Service and Azure Container Registry (ACR) configuration.
+  - Automated CI/CD pipeline implementation via GitHub Actions with secretless OpenID Connect (OIDC).
+* **B123077 Namrata Kala**:
+  - Managed Cloud PostgreSQL setup and `pgvector` high-dimensional index schema.
+  - RAG embedding generation (`text-embedding-3-small`) and similarity retrieval pipelines.
+  - Quality Control (QC) validation rules, benchmark evaluations, and project report authoring.
+
