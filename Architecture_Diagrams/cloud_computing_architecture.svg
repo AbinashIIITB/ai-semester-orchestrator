@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 26px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; fill: #8b949e; }
+      .tier-box { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 12px; }
+      .tier-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+      .card { fill: #21262d; stroke: #38434f; stroke-width: 1.2; rx: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+      .card-azure { fill: #0e2746; stroke: #0078d4; stroke-width: 1.5; rx: 8px; }
+      .card-vercel { fill: #1c1d21; stroke: #4f535a; stroke-width: 1.5; rx: 8px; }
+      .card-data { fill: #1a2332; stroke: #336791; stroke-width: 1.5; rx: 8px; }
+      .card-ai { fill: #172b26; stroke: #10a37f; stroke-width: 1.5; rx: 8px; }
+      .card-cicd { fill: #221c35; stroke: #8957e5; stroke-width: 1.5; rx: 8px; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f0f6fc; }
+      .card-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }
+      .badge { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 700; fill: #ffffff; }
+      .conn { stroke: #58a6ff; stroke-width: 2; fill: none; stroke-dasharray: 4,4; }
+      .conn-solid { stroke: #58a6ff; stroke-width: 2; fill: none; }
+      .conn-azure { stroke: #0078d4; stroke-width: 2; fill: none; }
+      .conn-ai { stroke: #10a37f; stroke-width: 2; fill: none; }
+      .arrow { fill: #58a6ff; }
+      .arrow-azure { fill: #0078d4; }
+      .arrow-ai { fill: #10a37f; }
+    </style>
+    
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff" />
+    </marker>
+    <marker id="arrowhead-azure" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0078d4" />
+    </marker>
+    <marker id="arrowhead-ai" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10a37f" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="760" class="bg" />
+
+  <!-- Header -->
+  <text x="50" y="45" class="title">AI Semester Orchestrator — Cloud System Architecture</text>
+  <text x="50" y="70" class="subtitle">Multi-Tier Cloud Native Deployment with Microsoft Azure, Vercel Edge, pgvector, and GitHub Actions CI/CD</text>
+
+  <!-- TIER 1: Presentation Tier (Vercel) -->
+  <rect x="50" y="100" width="320" height="420" class="tier-box" />
+  <text x="70" y="130" class="tier-label" fill="#79c0ff">Tier 1: Presentation &amp; Edge</text>
+
+  <!-- User Browser -->
+  <rect x="70" y="150" width="280" height="75" class="card" />
+  <circle cx="95" cy="187" r="14" fill="#30363d" />
+  <text x="91" y="192" font-size="16" fill="#f0f6fc">💻</text>
+  <text x="125" y="180" class="card-title">Client Browser</text>
+  <text x="125" y="200" class="card-desc">React 19 / Next.js SPA Interface</text>
+
+  <!-- Vercel Edge Hosting -->
+  <rect x="70" y="260" width="280" height="110" class="card-vercel" />
+  <rect x="250" y="272" width="85" height="18" rx="9" fill="#238636" />
+  <text x="263" y="285" class="badge">HOSTED LIVE</text>
+  <text x="90" y="290" class="card-title">Vercel Global Edge CDN</text>
+  <text x="90" y="312" class="card-desc">Domain: aisemester-web.vercel.app</text>
+  <text x="90" y="332" class="card-desc">• Next.js 16 App Router (SSR/SSG)</text>
+  <text x="90" y="350" class="card-desc">• Edge SSL Termination &amp; Compression</text>
+
+  <!-- Client State / Upload Module -->
+  <rect x="70" y="400" width="280" height="95" class="card" />
+  <text x="90" y="430" class="card-title">Adaptive Client Engine</text>
+  <text x="90" y="452" class="card-desc">• Dynamic Course Roadmap Synthesis</text>
+  <text x="90" y="472" class="card-desc">• Interactive Quiz &amp; Concept Guides</text>
+
+  <!-- Connection: Browser to Vercel -->
+  <line x1="210" y1="225" x2="210" y2="260" class="conn-solid" marker-end="url(#arrowhead)" />
+  <line x1="210" y1="370" x2="210" y2="400" class="conn-solid" marker-end="url(#arrowhead)" />
+
+  <!-- TIER 2: Application Tier (Microsoft Azure) -->
+  <rect x="410" y="100" width="410" height="420" class="tier-box" />
+  <text x="430" y="130" class="tier-label" fill="#0078d4">Tier 2: Cloud Application (Microsoft Azure)</text>
+
+  <!-- Azure Web App / Container Apps -->
+  <rect x="430" y="150" width="370" height="150" class="card-azure" />
+  <rect x="700" y="162" width="85" height="18" rx="9" fill="#0078d4" />
+  <text x="713" y="175" class="badge">AZURE PAAS</text>
+  <text x="450" y="180" class="card-title">Azure App Service / Container Apps</text>
+  <text x="450" y="202" class="card-desc">App Name: aisemester-app-21335 (Port: 8000)</text>
+  <text x="450" y="222" class="card-desc">• FastAPI Asynchronous Server (Uvicorn)</text>
+  <text x="450" y="242" class="card-desc">• LangGraph Multi-Agent RAG Orchestrator</text>
+  <text x="450" y="262" class="card-desc">• Health Probe Monitoring (/health)</text>
+  <text x="450" y="282" class="card-desc">• Docker Linux Container (python:3.12-slim)</text>
+
+  <!-- Azure Container Registry (ACR) -->
+  <rect x="430" y="330" width="370" height="90" class="card-azure" />
+  <text x="450" y="360" class="card-title">Azure Container Registry (ACR)</text>
+  <text x="450" y="382" class="card-desc">Repository: aisemester-backend:sha-tag</text>
+  <text x="450" y="402" class="card-desc">• OCI-Compliant Secure Image Registry</text>
+
+  <!-- Security & Networking -->
+  <rect x="430" y="445" width="370" height="55" class="card" />
+  <text x="450" y="475" class="card-desc"><tspan fill="#58a6ff" font-weight="600">Cloud Security:</tspan> Azure Managed AppSettings, CORS Whitelist, SSL</text>
+
+  <!-- Connect ACR to WebApp -->
+  <line x1="615" y1="330" x2="615" y2="300" class="conn-azure" marker-end="url(#arrowhead-azure)" />
+
+  <!-- TIER 3: Data & AI Services Tier -->
+  <rect x="860" y="100" width="290" height="420" class="tier-box" />
+  <text x="880" y="130" class="tier-label" fill="#10a37f">Tier 3: Data &amp; AI Cloud Engine</text>
+
+  <!-- Database: PostgreSQL + pgvector -->
+  <rect x="880" y="150" width="250" height="150" class="card-data" />
+  <rect x="1040" y="162" width="75" height="18" rx="9" fill="#336791" />
+  <text x="1052" y="175" class="badge">PGVECTOR</text>
+  <text x="900" y="180" class="card-title">Cloud PostgreSQL</text>
+  <text x="900" y="202" class="card-desc">• pgvector Extension Enabled</text>
+  <text x="900" y="222" class="card-desc">• notes_embeddings (1536-dim)</text>
+  <text x="900" y="242" class="card-desc">• semesters, courses, syllabi</text>
+  <text x="900" y="262" class="card-desc">• Async SQLAlchemy Connection Pool</text>
+  <text x="900" y="282" class="card-desc">• HNSW High-Speed Vector Index</text>
+
+  <!-- Cloud LLM & Embeddings -->
+  <rect x="880" y="330" width="250" height="165" class="card-ai" />
+  <rect x="1040" y="342" width="75" height="18" rx="9" fill="#10a37f" />
+  <text x="1055" y="355" class="badge">LLM API</text>
+  <text x="900" y="360" class="card-title">Cloud AI Inference</text>
+  <text x="900" y="382" class="card-desc">• OpenAI / Azure OpenAI</text>
+  <text x="900" y="402" class="card-desc">• GPT-4o: Roadmap Extraction,</text>
+  <text x="900" y="420" class="card-desc">  Scheduling &amp; Quiz Synthesis</text>
+  <text x="900" y="442" class="card-desc">• text-embedding-3-small</text>
+  <text x="900" y="462" class="card-desc">  (Semantic Vector Embeddings)</text>
+
+  <!-- DEVOPS & CI/CD PIPELINE (Bottom Box) -->
+  <rect x="50" y="550" width="1100" height="170" class="tier-box" />
+  <text x="70" y="580" class="tier-label" fill="#a371f7">Cloud DevOps &amp; Automated CI/CD Pipeline</text>
+
+  <!-- GitHub Repository -->
+  <rect x="70" y="600" width="240" height="95" class="card-cicd" />
+  <text x="90" y="628" class="card-title">GitHub Repository</text>
+  <text x="90" y="650" class="card-desc">AbinashIIITB/ai-semester-orchestrator</text>
+  <text x="90" y="670" class="card-desc">Branch: main (Git Version Control)</text>
+
+  <!-- GitHub Actions Workflow -->
+  <rect x="350" y="600" width="270" height="95" class="card-cicd" />
+  <text x="370" y="628" class="card-title">GitHub Actions (.github)</text>
+  <text x="370" y="650" class="card-desc">Workflow: deploy-azure.yml</text>
+  <text x="370" y="670" class="card-desc">Triggers on push to /backend/**</text>
+
+  <!-- Secretless OIDC Auth -->
+  <rect x="660" y="600" width="240" height="95" class="card-cicd" />
+  <text x="680" y="628" class="card-title">Azure OIDC Auth</text>
+  <text x="680" y="650" class="card-desc">azure/login@v2 (Federated Identity)</text>
+  <text x="680" y="670" class="card-desc">Zero Long-Lived Secret Passwords</text>
+
+  <!-- Automated Cloud Release -->
+  <rect x="940" y="600" width="190" height="95" class="card-cicd" />
+  <text x="960" y="628" class="card-title">Cloud Release</text>
+  <text x="960" y="650" class="card-desc">• Docker Build &amp; Tag</text>
+  <text x="960" y="670" class="card-desc">• az webapp deploy</text>
+
+  <!-- CI/CD Arrows -->
+  <line x1="310" y1="648" x2="350" y2="648" class="conn-solid" marker-end="url(#arrowhead)" />
+  <line x1="620" y1="648" x2="660" y2="648" class="conn-solid" marker-end="url(#arrowhead)" />
+  <line x1="900" y1="648" x2="940" y2="648" class="conn-solid" marker-end="url(#arrowhead)" />
+  <path d="M 1035 600 L 1035 530 L 780 530 L 780 420" class="conn" marker-end="url(#arrowhead)" />
+
+  <!-- Tier-to-Tier Connections -->
+  <!-- Vercel to Azure Web App -->
+  <line x1="350" y1="315" x2="430" y2="225" class="conn" marker-end="url(#arrowhead)" />
+  <text x="365" y="260" font-family="-apple-system, sans-serif" font-size="11" fill="#79c0ff" transform="rotate(-30, 365, 260)">HTTPS / REST API</text>
+
+  <!-- Azure Web App to Database -->
+  <line x1="800" y1="210" x2="880" y2="210" class="conn-solid" marker-end="url(#arrowhead)" />
+  <text x="815" y="200" font-family="-apple-system, sans-serif" font-size="10" fill="#79c0ff">Async SQL</text>
+
+  <!-- Azure Web App to OpenAI -->
+  <line x1="800" y1="255" x2="880" y2="390" class="conn-ai" marker-end="url(#arrowhead-ai)" />
+  <text x="820" y="320" font-family="-apple-system, sans-serif" font-size="10" fill="#10a37f">Prompt/Embed</text>
+
+</svg>

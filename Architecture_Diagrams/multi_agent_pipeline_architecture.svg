@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 26px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; fill: #8b949e; }
+      .stage-box { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 12px; }
+      .stage-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+      .agent-card { fill: #1f293d; stroke: #388bfd; stroke-width: 1.5; rx: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+      .agent-card-qc { fill: #2d1c26; stroke: #f85149; stroke-width: 1.5; rx: 8px; }
+      .agent-card-gen { fill: #172b26; stroke: #2ea043; stroke-width: 1.5; rx: 8px; }
+      .agent-card-ret { fill: #24213d; stroke: #a371f7; stroke-width: 1.5; rx: 8px; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f0f6fc; }
+      .card-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }
+      .agent-badge { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 700; fill: #ffffff; }
+      .conn-flow { stroke: #58a6ff; stroke-width: 2.5; fill: none; }
+      .conn-loop { stroke: #f85149; stroke-width: 2; stroke-dasharray: 4,4; fill: none; }
+    </style>
+
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f85149" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="700" class="bg" />
+
+  <!-- Title -->
+  <text x="50" y="45" class="title">Multi-Agent RAG Orchestration Pipeline</text>
+  <text x="50" y="70" class="subtitle">Autonomous State Graph for Ingestion, Scheduling, Semantic Vector Retrieval &amp; Quality Control</text>
+
+  <!-- COLUMN 1: Ingestion Stage -->
+  <rect x="50" y="100" width="220" height="540" class="stage-box" />
+  <text x="70" y="130" class="stage-label" fill="#79c0ff">Stage 1: Ingestion</text>
+
+  <!-- PDF Artifacts -->
+  <rect x="70" y="160" width="180" height="75" rx="8" fill="#21262d" stroke="#30363d" />
+  <text x="85" y="190" class="card-title">📄 Syllabus PDF</text>
+  <text x="85" y="212" class="card-desc">Course topics &amp; objectives</text>
+
+  <rect x="70" y="255" width="180" height="75" rx="8" fill="#21262d" stroke="#30363d" />
+  <text x="85" y="285" class="card-title">📅 Academic Calendar</text>
+  <text x="85" y="307" class="card-desc">Term dates &amp; holidays</text>
+
+  <rect x="70" y="350" width="180" height="75" rx="8" fill="#21262d" stroke="#30363d" />
+  <text x="85" y="380" class="card-title">📚 Lecture Notes</text>
+  <text x="85" y="402" class="card-desc">Transcripts &amp; slide decks</text>
+
+  <!-- Chunking & Parser -->
+  <rect x="70" y="450" width="180" height="160" rx="8" fill="#1b222c" stroke="#388bfd" />
+  <text x="85" y="480" class="card-title">pypdf &amp; Chunker</text>
+  <text x="85" y="505" class="card-desc">• PDF text extraction</text>
+  <text x="85" y="525" class="card-desc">• 800-token chunk window</text>
+  <text x="85" y="545" class="card-desc">• 200-token overlap</text>
+  <text x="85" y="565" class="card-desc">• text-embedding-3-small</text>
+  <text x="85" y="585" class="card-desc">• Stored in pgvector</text>
+
+  <!-- Ingestion to Chunking arrows -->
+  <line x1="160" y1="235" x2="160" y2="450" class="conn-flow" />
+  <line x1="160" y1="330" x2="160" y2="450" class="conn-flow" />
+  <line x1="160" y1="425" x2="160" y2="450" class="conn-flow" marker-end="url(#arrow)" />
+
+  <!-- COLUMN 2: Extraction & Scheduling Agents -->
+  <rect x="300" y="100" width="280" height="540" class="stage-box" />
+  <text x="320" y="130" class="stage-label" fill="#58a6ff">Stage 2: Core Orchestrators</text>
+
+  <!-- Agent 1: Extraction -->
+  <rect x="320" y="160" width="240" height="175" class="agent-card" />
+  <rect x="460" y="172" width="85" height="18" rx="9" fill="#1f6feb" />
+  <text x="473" y="185" class="agent-badge">AGENT 1</text>
+  <text x="340" y="195" class="card-title">Extraction Agent</text>
+  <text x="340" y="220" class="card-desc">• Extracts structured topics</text>
+  <text x="340" y="240" class="card-desc">• Detects semester boundaries</text>
+  <text x="340" y="260" class="card-desc">• Isolates university holidays</text>
+  <text x="340" y="280" class="card-desc">• Generates normalized JSON</text>
+  <text x="340" y="300" class="card-desc">• Schema: CourseTopics, Dates</text>
+
+  <!-- Agent 2: Scheduler -->
+  <rect x="320" y="380" width="240" height="230" class="agent-card" />
+  <rect x="460" y="392" width="85" height="18" rx="9" fill="#1f6feb" />
+  <text x="473" y="405" class="agent-badge">AGENT 2</text>
+  <text x="340" y="415" class="card-title">Scheduler Agent</text>
+  <text x="340" y="440" class="card-desc">• Calculates teaching weeks</text>
+  <text x="340" y="460" class="card-desc">• Maps start/end calendar dates</text>
+  <text x="340" y="480" class="card-desc">• Detects holiday collisions</text>
+  <text x="340" y="500" class="card-desc">• Reserves Midterm Assessment</text>
+  <text x="340" y="520" class="card-desc">• Distributes topics evenly</text>
+  <text x="340" y="540" class="card-desc">• Handles overflow &amp; pacing</text>
+  <text x="340" y="565" class="card-desc"><tspan fill="#79c0ff" font-weight="600">Output:</tspan> 15-Week Roadmap</text>
+
+  <!-- Ingestion to Extraction arrow -->
+  <line x1="250" y1="247" x2="320" y2="247" class="conn-flow" marker-end="url(#arrow)" />
+  <!-- Extraction to Scheduler arrow -->
+  <line x1="440" y1="335" x2="440" y2="380" class="conn-flow" marker-end="url(#arrow)" />
+
+  <!-- COLUMN 3: Retrieval & Generator Agents -->
+  <rect x="610" y="100" width="280" height="540" class="stage-box" />
+  <text x="630" y="130" class="stage-label" fill="#a371f7">Stage 3: RAG Synthesis</text>
+
+  <!-- Agent 3: Retrieval -->
+  <rect x="630" y="160" width="240" height="175" class="agent-card-ret" />
+  <rect x="770" y="172" width="85" height="18" rx="9" fill="#8957e5" />
+  <text x="783" y="185" class="agent-badge">AGENT 3</text>
+  <text x="650" y="195" class="card-title">Retrieval Agent</text>
+  <text x="650" y="220" class="card-desc">• Queries pgvector database</text>
+  <text x="650" y="240" class="card-desc">• Cosine similarity search</text>
+  <text x="650" y="260" class="card-desc">• Top-K relevance (k=10 chunks)</text>
+  <text x="650" y="280" class="card-desc">• Re-ranks by topic match</text>
+  <text x="650" y="300" class="card-desc">• Assembles context window</text>
+
+  <!-- Agent 4: Generator -->
+  <rect x="630" y="380" width="240" height="230" class="agent-card-gen" />
+  <rect x="770" y="392" width="85" height="18" rx="9" fill="#238636" />
+  <text x="783" y="405" class="agent-badge">AGENT 4</text>
+  <text x="650" y="415" class="card-title">Generator Agent</text>
+  <text x="650" y="440" class="card-desc">• Cloud LLM (OpenAI GPT-4o)</text>
+  <text x="650" y="460" class="card-desc">• Synthesizes weekly summary</text>
+  <text x="650" y="480" class="card-desc">• Generates 4-option MCQs</text>
+  <text x="650" y="500" class="card-desc">• Generates clear explanations</text>
+  <text x="650" y="520" class="card-desc">• Associates source topics</text>
+  <text x="650" y="540" class="card-desc">• Strict JSON output format</text>
+
+  <!-- Scheduler to Retrieval / Generator arrows -->
+  <line x1="560" y1="450" x2="630" y2="247" class="conn-flow" marker-end="url(#arrow)" />
+  <line x1="750" y1="335" x2="750" y2="380" class="conn-flow" marker-end="url(#arrow)" />
+
+  <!-- COLUMN 4: Quality Control & Output -->
+  <rect x="920" y="100" width="240" height="540" class="stage-box" />
+  <text x="940" y="130" class="stage-label" fill="#f85149">Stage 4: Validation &amp; Output</text>
+
+  <!-- Agent 5: Quality Control -->
+  <rect x="940" y="160" width="200" height="200" class="agent-card-qc" />
+  <rect x="1035" y="172" width="90" height="18" rx="9" fill="#da3633" />
+  <text x="1047" y="185" class="agent-badge">AGENT 5 (QC)</text>
+  <text x="960" y="195" class="card-title">Quality Control Agent</text>
+  <text x="960" y="220" class="card-desc">• Schema compliance check</text>
+  <text x="960" y="240" class="card-desc">• Hallucination inspection</text>
+  <text x="960" y="260" class="card-desc">• Topic grounding score</text>
+  <text x="960" y="280" class="card-desc">• Max 3 retry loop if score</text>
+  <text x="960" y="300" class="card-desc">  falls below threshold</text>
+
+  <!-- Outputs -->
+  <rect x="940" y="400" width="200" height="65" rx="8" fill="#1b222c" stroke="#388bfd" />
+  <text x="955" y="425" class="card-title">🗺️ Semester Roadmap</text>
+  <text x="955" y="447" class="card-desc">Week-by-week timeline</text>
+
+  <rect x="940" y="475" width="200" height="65" rx="8" fill="#1b222c" stroke="#2ea043" />
+  <text x="955" y="500" class="card-title">📖 Weekly Study Guide</text>
+  <text x="955" y="522" class="card-desc">Key concept mastery text</text>
+
+  <rect x="940" y="550" width="200" height="65" rx="8" fill="#1b222c" stroke="#a371f7" />
+  <text x="955" y="575" class="card-title">📝 Interactive Quiz</text>
+  <text x="955" y="597" class="card-desc">Automated self-evaluation</text>
+
+  <!-- Generator to QC arrow -->
+  <line x1="870" y1="460" x2="940" y2="280" class="conn-flow" marker-end="url(#arrow)" />
+
+  <!-- QC Retry Loop back to Retrieval -->
+  <path d="M 1040 160 L 1040 135 L 750 135 L 750 160" class="conn-loop" marker-end="url(#arrow-red)" />
+  <text x="825" y="125" font-family="-apple-system, sans-serif" font-size="10" fill="#f85149" font-weight="600">Retry if QC fails (&lt;3)</text>
+
+  <!-- QC Passed to Outputs -->
+  <line x1="1040" y1="360" x2="1040" y2="400" class="conn-flow" marker-end="url(#arrow)" />
+
+</svg>
