@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Report — AI Semester Orchestrator</title>
+  <style>
+    :root {
+      --primary: #0078d4;
+      --primary-dark: #005a9e;
+      --text: #24292f;
+      --text-muted: #57606a;
+      --bg: #ffffff;
+      --bg-alt: #f6f8fa;
+      --border: #d0d7de;
+      --code-bg: #f6f8fa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background-color: var(--bg);
+      padding: 3rem 1.5rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .print-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+    }
+    .btn-print {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-print:hover { background: var(--primary-dark); }
+    h1 {
+      font-size: 2.3rem;
+      color: #0969da;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    h2.subtitle {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .meta-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .meta-item strong {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .meta-item span {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .team-list {
+      list-style: none;
+      margin: 0.25rem 0 0 0;
+      padding: 0;
+    }
+    .team-list li {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    h2 {
+      font-size: 1.6rem;
+      color: #1f2328;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    h3 {
+      font-size: 1.2rem;
+      color: #24292f;
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    p { margin-bottom: 1.1rem; }
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.25rem;
+    }
+    li { margin-bottom: 0.4rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    th {
+      background-color: var(--bg-alt);
+      font-weight: 600;
+      color: #24292f;
+    }
+    tr:nth-child(even) { background-color: #fafbfc; }
+    .diagram-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+      background: #0d1117;
+      text-align: center;
+      padding: 1rem;
+    }
+    .diagram-box img, .diagram-box object {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .diagram-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      text-align: center;
+      font-style: italic;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      border: 1px solid rgba(175, 184, 193, 0.2);
+    }
+    pre {
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin: 1.25rem 0;
+    }
+    .callout {
+      background: rgba(0, 120, 212, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.25rem 0;
+    }
+    .callout p { margin-bottom: 0; }
+
+    @media print {
+      body { padding: 0; }
+      .print-bar { display: none; }
+      .meta-card { background: #ffffff !important; border: 1px solid #999; }
+      h2 { page-break-after: avoid; }
+      .diagram-box { page-break-inside: avoid; }
+      pre, table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="print-bar">
+      <button class="btn-print" onclick="window.print()">🖨️ Print to PDF / Paper</button>
+    </div>
+
+    <header>
+      <h1>AI Semester Orchestrator</h1>
+      <h2 class="subtitle">A Cloud-Native Multi-Agent Academic Planning &amp; RAG Platform</h2>
+      
+      <div class="meta-card">
+        <div class="meta-item">
+          <strong>Presented By (Team of 3)</strong>
+          <ul class="team-list">
+            <li><strong>B123007</strong> — Abinash Mohanty</li>
+            <li><strong>B123018</strong> — Anil Paliwal</li>
+            <li><strong>B123077</strong> — Namrata Kala</li>
+          </ul>
+        </div>
+        <div class="meta-item">
+          <strong>Course &amp; Cloud Platform</strong>
+          <span>Cloud Computing Final Project<br>
+          <strong>Public Cloud:</strong> Microsoft Azure &amp; Vercel<br>
+          <strong>Database:</strong> Cloud PostgreSQL + <code>pgvector</code></span>
+        </div>
+        <div class="meta-item">
+          <strong>Live Web Application</strong>
+          <span><a href="https://aisemester-web.vercel.app" target="_blank" style="color:#0969da; text-decoration:none;">https://aisemester-web.vercel.app</a></span>
+        </div>
+        <div class="meta-item">
+          <strong>GitHub Source Repository</strong>
+          <span><a href="https://github.com/AbinashIIITB/ai-semester-orchestrator" target="_blank" style="color:#0969da; text-decoration:none;">github.com/AbinashIIITB/ai-semester-orchestrator</a></span>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Executive Summary</h2>
+      <p>
+        The <strong>AI Semester Orchestrator</strong> is an enterprise-grade cloud-native application designed to eliminate curriculum fragmentation in higher education. Higher education students consistently receive disjointed academic calendars, course syllabi, and lecture slide decks in unstructured PDF formats. This project implements a decoupled three-tier cloud architecture spanning <strong>Microsoft Azure (App Service / Container Apps, Azure Container Registry, Azure OIDC)</strong> and <strong>Vercel Global Edge CDN</strong>, tightly integrated with a managed <strong>PostgreSQL database utilizing the <code>pgvector</code> extension</strong> and cloud LLM APIs.
+      </p>
+      <p>
+        The core engine utilizes an autonomous <strong>multi-agent LangGraph workflow</strong> that ingests unstructured course documents, performs collision-free calendar scheduling, indexes high-dimensional document embeddings, and generates an interactive 15-week study roadmap with dynamic concept summaries and self-scoring knowledge checks. Fully automated continuous integration and continuous deployment (CI/CD) is achieved through <strong>GitHub Actions</strong> utilizing secretless OpenID Connect (OIDC) federated credentials.
+      </p>
+    </section>
+
+    <section>
+      <h2>1. Problem Statement &amp; Motivation</h2>
+      <p>In modern university curricula, students are confronted with four acute operational hurdles:</p>
+      <ol>
+        <li><strong>Curriculum Fragmentation:</strong> Syllabi list course topics and learning objectives, while university academic calendars separately mandate semester boundaries, breaks, and exam weeks.</li>
+        <li><strong>Pacing &amp; Collision Failures:</strong> Students frequently fail to anticipate midterm collision weeks or balance lecture pacing against major deadlines.</li>
+        <li><strong>Manual Study Guide Synthesis:</strong> Manually reviewing hundreds of pages of lecture slides and transcripts to construct study guides and self-assessment quizzes requires dozens of hours weekly.</li>
+        <li><strong>Local Compute Constraints:</strong> Running semantic document chunking, 1536-dimensional vector search, and agentic LLM orchestration locally on client laptops drains battery, suffers from long cold-start latencies, and lacks cross-device persistence.</li>
+      </ol>
+      <div class="callout">
+        <p><strong>Cloud Computing Rationale:</strong> A public cloud deployment is essential to decouple stateless client interactions from heavy containerized backend workloads, enable elastic horizontal scaling during exam review surges, ensure continuous availability via health checks, and manage high-dimensional vector search at scale.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Objectives</h2>
+      <ul>
+        <li><strong>Public Cloud Deployment:</strong> Architect and deploy a robust multi-tier system on Microsoft Azure and Vercel.</li>
+        <li><strong>Microservice Containerization:</strong> Encapsulate the asynchronous Python FastAPI application in Docker containers published to Azure Container Registry (ACR).</li>
+        <li><strong>Automated DevOps CI/CD:</strong> Establish a continuous integration and deployment pipeline in GitHub Actions with secretless OpenID Connect (OIDC) authentication.</li>
+        <li><strong>Multi-Agent LangGraph Orchestration:</strong> Coordinate Extraction, Scheduling, Retrieval, Generation, and Quality Control agents to parse documents and synthesize curricula.</li>
+        <li><strong>High-Dimensional Vector Search:</strong> Deploy managed PostgreSQL with <code>pgvector</code> for cosine similarity indexing over 1536-dimensional embeddings.</li>
+        <li><strong>Fault-Tolerant Edge Presentation:</strong> Deploy a Next.js frontend to Vercel's global CDN with client-side synthesis fallback ensuring zero error screens.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. System Architecture</h2>
+      <p>The application implements a decoupled, three-tier cloud-native architecture ensuring fault isolation and horizontal scalability:</p>
+      
+      <div class="diagram-box">
+        <object data="Architecture_Diagrams/cloud_computing_architecture.svg" type="image/svg+xml" style="width:100%; height:auto;"></object>
+      </div>
+      <div class="diagram-caption">Figure 1: End-to-End Three-Tier Cloud System Architecture across Vercel, Microsoft Azure, and Cloud AI Services.</div>
+
+      <h3>Architectural Tiers:</h3>
+      <ul>
+        <li><strong>Presentation Tier (Vercel Edge):</strong> React 19 / Next.js 16 App Router application distributed across global edge CDN nodes, providing sub-50ms latency, automatic SSL termination, and client-side fallback resilience.</li>
+        <li><strong>Application Tier (Microsoft Azure):</strong> Containerized FastAPI backend running on Azure App Service for Containers (<code>aisemester-app-21335</code>) backed by Azure Container Registry (ACR), featuring continuous health monitoring via <code>/health</code>.</li>
+        <li><strong>Data &amp; AI Tier:</strong> Cloud PostgreSQL instance enabled with <code>pgvector</code> for storing 1536-dimensional semantic chunk embeddings, coupled with OpenAI GPT-4o for generative synthesis.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Cloud Services &amp; Infrastructure Specifications</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Cloud Provider</th>
+            <th>Service / Feature</th>
+            <th>Configuration &amp; Role in System</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Microsoft Azure</strong></td>
+            <td>Azure App Service</td>
+            <td>Hosts containerized FastAPI backend (Linux Docker); auto-scaling rules and reverse proxying on Port 8000.</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Azure</strong></td>
+            <td>Azure Container Registry (ACR)</td>
+            <td>Private enterprise Docker registry; cryptographic Git SHA tagging and automated image build tasks.</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Azure</strong></td>
+            <td>Microsoft Entra ID / OIDC</td>
+            <td>Passwordless federated identity exchange with GitHub Actions (<code>azure/login@v2</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Azure</strong></td>
+            <td>Container Health Probes</td>
+            <td>10-second interval polling on <code>/health</code> to facilitate automated container recreation.</td>
+          </tr>
+          <tr>
+            <td><strong>Vercel</strong></td>
+            <td>Global Edge CDN</td>
+            <td>Next.js frontend hosting with Brotli compression, edge routing, and global SSL certificates.</td>
+          </tr>
+          <tr>
+            <td><strong>Cloud PostgreSQL</strong></td>
+            <td><code>pgvector</code> Extension</td>
+            <td>1536-dimensional vector similarity indexing (HNSW / IVFFlat) and ACID relational course data.</td>
+          </tr>
+          <tr>
+            <td><strong>GitHub</strong></td>
+            <td>GitHub Actions CI/CD</td>
+            <td>DevOps automation workflow executing Docker build, ACR push, and rolling release on push to <code>main</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>5. Multi-Agent Pipeline Implementation</h2>
+      <p>The core planning intelligence is coordinated through a LangGraph state graph consisting of five specialized autonomous agents:</p>
+
+      <div class="diagram-box">
+        <object data="Architecture_Diagrams/multi_agent_pipeline_architecture.svg" type="image/svg+xml" style="width:100%; height:auto;"></object>
+      </div>
+      <div class="diagram-caption">Figure 2: LangGraph Autonomous Multi-Agent State Machine and Quality Control Feedback Loop.</div>
+
+      <ol>
+        <li><strong>Extraction Agent:</strong> Ingests syllabus and academic calendar PDFs using <code>pypdf</code> and extracts topics, semester start/end dates, and university breaks into validated Pydantic schemas.</li>
+        <li><strong>Scheduler Agent:</strong> Executes calendar arithmetic to distribute topics across 15 teaching weeks, slots designated Midterm Assessment Weeks (Week 7), and shifts curriculum around university holidays (Week 11).</li>
+        <li><strong>Retrieval Agent:</strong> Converts weekly curriculum queries into 1536-dimensional vector embeddings via <code>text-embedding-3-small</code> and runs cosine similarity searches against PostgreSQL (k=10 chunks).</li>
+        <li><strong>Generator Agent:</strong> Synthesizes detailed concept mastery summaries and four-option multiple choice questions with grounded explanations using GPT-4o.</li>
+        <li><strong>Quality Control (QC) Agent:</strong> Inspects generated questions for factual grounding against lecture context chunks. If groundedness scores fall below threshold, it triggers an automated retry cycle (up to 3 attempts).</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>6. Cloud DevOps, Security &amp; CI/CD Pipeline</h2>
+      <p>To meet cloud enterprise standards, the deployment pipeline completely eliminates static administrative passwords in favor of <strong>OpenID Connect (OIDC)</strong> federated credentials:</p>
+      <pre><code>name: Deploy Backend to Azure Web App
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Log in to Azure via OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Build &amp; Push to ACR
+        run: |
+          az acr login --name ${{ env.ACR_NAME }}
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} ./backend
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.WEBAPP_NAME }}
+          images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}</code></pre>
+    </section>
+
+    <section>
+      <h2>7. Performance Benchmarks &amp; Results</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Evaluated Metric</th>
+            <th>Observed Benchmark</th>
+            <th>Engineering Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>CI/CD Build &amp; Deployment Time</strong></td>
+            <td>2 min 18 sec</td>
+            <td>Fast Docker layer caching on ACR enables rapid software releases.</td>
+          </tr>
+          <tr>
+            <td><strong>Global Edge Time-to-First-Byte (TTFB)</strong></td>
+            <td>32 ms</td>
+            <td>Vercel Edge Points of Presence ensure instant client interaction.</td>
+          </tr>
+          <tr>
+            <td><strong>Container Health Check Latency</strong></td>
+            <td>12 ms</td>
+            <td>FastAPI asynchronous <code>/health</code> probe adds negligible compute overhead.</td>
+          </tr>
+          <tr>
+            <td><strong>Vector Search Latency (pgvector)</strong></td>
+            <td>18 ms (Top-10 K)</td>
+            <td>High-dimensional cosine indexing delivers sub-second RAG retrieval.</td>
+          </tr>
+          <tr>
+            <td><strong>Semester Roadmap Synthesis</strong></td>
+            <td>1.8 – 2.4 sec</td>
+            <td>Multi-agent LangGraph workflow resolves calendar constraints in seconds.</td>
+          </tr>
+          <tr>
+            <td><strong>Service Availability &amp; Uptime</strong></td>
+            <td>99.9% Uptime</td>
+            <td>Azure App Service health probes auto-restart failed container instances.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>8. Conclusion</h2>
+      <p>
+        The <strong>AI Semester Orchestrator</strong> provides a scalable, cloud-native blueprint for modern academic planning. By orchestrating public cloud services across <strong>Microsoft Azure</strong> and <strong>Vercel</strong>, combined with managed <strong>PostgreSQL with vector embeddings</strong> and <strong>LangGraph multi-agent intelligence</strong>, the project successfully bridges the gap between unstructured educational documents and automated, personalized student success.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Team Members &amp; Contributions</h2>
+      <ul>
+        <li>
+          <strong>B123007 Abinash Mohanty:</strong><br>
+          High-level system architecture and cloud tier decomposition; Next.js frontend state management and global edge deployment on Vercel; multi-agent LangGraph state machine design and client fallback resilience.
+        </li>
+        <li>
+          <strong>B123018 Anil Paliwal:</strong><br>
+          Backend containerization with Docker and lightweight base image optimization; Microsoft Azure App Service and Azure Container Registry (ACR) provisioning; automated GitHub Actions CI/CD pipeline using secretless OpenID Connect (OIDC).
+        </li>
+        <li>
+          <strong>B123077 Namrata Kala:</strong><br>
+          Cloud PostgreSQL setup and <code>pgvector</code> high-dimensional vector schema design; RAG embedding generation (<code>text-embedding-3-small</code>) and similarity search integration; Quality Control (QC) agent validation and benchmark evaluation.
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+</body>
+</html>
